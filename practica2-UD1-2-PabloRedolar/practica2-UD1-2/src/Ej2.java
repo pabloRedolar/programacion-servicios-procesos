@@ -43,5 +43,6 @@ public class Ej2 {
         new Usuario("Jorge", tienda).start();
         new Usuario("María", tienda).start();
         new Usuario("Luisa", tienda).start();
+
     }
 }

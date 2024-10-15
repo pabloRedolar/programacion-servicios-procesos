@@ -92,7 +92,6 @@ public class Ej1 {
             System.out.println("Hilo: main. Interrumpido.");
         }
 
-        System.out.printf("Hilo: main. Finalizado. Lecturas totales - Sensor de Temperatura: %d, Sensor de Humedad: %d.\n",
-                sensorTemp.getLecturas(), sensorHum.getLecturas());
+        System.out.printf("Hilo: main. Finalizado. Lecturas totales - Sensor de Temperatura: %d, Sensor de Humedad: %d.\n", sensorTemp.getLecturas(), sensorHum.getLecturas());
     }
 }
