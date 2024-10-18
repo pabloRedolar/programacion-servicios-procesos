@@ -33,17 +33,15 @@ public class Cliente implements Runnable {
 
     public static class GeneradorClientes implements Runnable {
         private Random random = new Random();
-        private int clienteId = 1; // Para dar a cada cliente un ID único
+        private int clienteId = 1;
 
         @Override
         public void run() {
-            while (Peluqueria.isPeluqueriaAbierta()) {  // Mientras la peluquería esté abierta
-                // Crear un nuevo cliente
+            while (Peluqueria.isPeluqueriaAbierta()) {
                 Cliente cliente = new Cliente(clienteId++);
-                new Thread(cliente).start();  // Iniciar el hilo del cliente
+                new Thread(cliente).start();
 
                 try {
-                    // Esperar entre 1 y 2 segundos antes de que llegue otro cliente
                     Thread.sleep((random.nextInt(2) + 1) * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
