@@ -3,7 +3,7 @@ package Model;
 
 import java.util.random.RandomGenerator;
 
-public class Ruleta {
+public class Ruleta implements Runnable {
     private final int INTERVALO_NUMEROS = 3000;
     private int numeroGanador;
     private int banca = 50000;
@@ -36,7 +36,13 @@ public class Ruleta {
         this.banca = banca;
     }
 
-    public void generarNumeroGanador(){
-        setNumeroGanador(RandomGenerator.getDefault().nextInt(0, 36));
+    public void girarRuleta() {
+        setNumeroGanador(RandomGenerator.getDefault().nextInt(0, 37));
+
+    }
+
+    @Override
+    public void run() {
+
     }
 }
