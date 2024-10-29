@@ -1,77 +1,96 @@
-import Model.JugadorMartingala;
-import Model.JugadorNumeroExacto;
-import Model.JugadorParImpar;
-import Model.Ruleta;
+import Model.*;
 
 public class Main {
     public static void main(String[] args) {
         Ruleta ruleta = new Ruleta();
-        ruleta.girarRuleta();
-
-        System.out.println(ruleta.getNumeroGanador());
-
-        //Jugadores a numero especifico
 
         for (int i = 0; i < 4; i++) {
             JugadorNumeroExacto jugadorNumeroExacto = new JugadorNumeroExacto();
-            jugadorNumeroExacto.setId("jugardorNumeroExacto" + i);
-
-            if (jugadorNumeroExacto.apostar(ruleta.getNumeroGanador())) {
-
-                if ((ruleta.getBanca() - jugadorNumeroExacto.getApuestaInicial() * 36) > 0) {
-                    ruleta.setBanca(ruleta.getBanca() - (jugadorNumeroExacto.getApuestaInicial() * 36));
-                    jugadorNumeroExacto.setSaldo(jugadorNumeroExacto.getSaldo() + (jugadorNumeroExacto.getApuestaInicial() * 36));
-                    System.out.println("El jugador " + jugadorNumeroExacto.getId() + " ahora tiene " + jugadorNumeroExacto.getSaldo() + "€");
-                } else {
-                    jugadorNumeroExacto.setSaldo(ruleta.getBanca());
-                }
-
-            } else {
-                ruleta.setBanca(ruleta.getBanca() + jugadorNumeroExacto.getApuestaInicial());
-            }
+            jugadorNumeroExacto.setId("JugadorNumeroExacto" + i);
+            ruleta.agregarJugador(jugadorNumeroExacto);
         }
-
-        System.out.println("---------Apuestas Par/Impar----------");
-
-        //Jugadores al par/impar
 
         for (int i = 0; i < 4; i++) {
             JugadorParImpar jugadorParImpar = new JugadorParImpar();
-            jugadorParImpar.setId("jugadorParImpar" + i);
-
-            if (jugadorParImpar.apostar(ruleta.getNumeroGanador())) {
-
-                if ((ruleta.getBanca() - (jugadorParImpar.getApuestaInicial() * 2) > 0)) {
-                    ruleta.setBanca(ruleta.getBanca() - (jugadorParImpar.getApuestaInicial() * 2));
-                    jugadorParImpar.setSaldo(jugadorParImpar.getSaldo() + (jugadorParImpar.getApuestaInicial() * 2));
-                    System.out.println("El jugador " + jugadorParImpar.getId() + " ahora tiene " + jugadorParImpar.getSaldo() + "€");
-                } else {
-                    jugadorParImpar.setSaldo(jugadorParImpar.getSaldo() + ruleta.getBanca());
-                }
-
-            } else {
-                ruleta.setBanca(ruleta.getBanca() + jugadorParImpar.getApuestaInicial());
-            }
+            jugadorParImpar.setId("JugadorParImpar" + i);
+            ruleta.agregarJugador(jugadorParImpar);
         }
-
-        //Jugadores martingala
-        System.out.println("---------------Martingala---------------");
 
         for (int i = 0; i < 4; i++) {
             JugadorMartingala jugadorMartingala = new JugadorMartingala();
-            jugadorMartingala.setId("jugadorMartingala" + i);
+            jugadorMartingala.setId("JugadorMartingala" + i);
+            ruleta.agregarJugador(jugadorMartingala);
+        }
 
-            if (jugadorMartingala.apostar(ruleta.getNumeroGanador())) {
+        Thread hiloRuleta = new Thread(ruleta);
+        hiloRuleta.start();
+
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        hiloRuleta.interrupt();
+        System.out.println("Juego terminado.");
+
+        procesarApuestas(ruleta);
+    }
+
+    private static void procesarApuestas(Ruleta ruleta) {
+        // Jugadores a número específico
+        System.out.println("---------Apuestas a Número Específico----------");
+        for (int i = 0; i < 4; i++) {
+            JugadorNumeroExacto jugadorNumeroExacto = new JugadorNumeroExacto();
+            jugadorNumeroExacto.setId("JugadorNumeroExacto" + i);
+            procesarApuesta(jugadorNumeroExacto, ruleta, 36);
+        }
+
+        // Jugadores par/impar
+        System.out.println("---------Apuestas Par/Impar----------");
+        for (int i = 0; i < 4; i++) {
+            JugadorParImpar jugadorParImpar = new JugadorParImpar();
+            jugadorParImpar.setId("JugadorParImpar" + i);
+            procesarApuesta(jugadorParImpar, ruleta, 2);
+        }
+
+        // Jugadores martingala
+        System.out.println("---------------Martingala---------------");
+        for (int i = 0; i < 4; i++) {
+            JugadorMartingala jugadorMartingala = new JugadorMartingala();
+            jugadorMartingala.setId("JugadorMartingala" + i);
+            boolean haGanado = jugadorMartingala.apostar(ruleta.getNumeroGanador());
+
+            if (haGanado) {
                 jugadorMartingala.setSaldo(jugadorMartingala.getSaldo() + 360);
                 ruleta.setBanca(ruleta.getBanca() - 360);
+                System.out.println("El jugador " + jugadorMartingala.getId() + " ha ganado en martingala. Ahora tiene " + jugadorMartingala.getSaldo() + "€");
             } else {
                 jugadorMartingala.setSaldo(jugadorMartingala.getSaldo() - 10);
                 jugadorMartingala.setApuestaInicial(jugadorMartingala.getApuestaInicial() * 2);
                 ruleta.setBanca(ruleta.getBanca() + 10);
+                System.out.println("El jugador " + jugadorMartingala.getId() + " ha perdido en martingala. Ahora tiene " + jugadorMartingala.getSaldo() + "€");
             }
         }
-
-        System.out.println("La banca se queda en: " + ruleta.getBanca());
-
     }
+
+    private static void procesarApuesta(Jugador jugador, Ruleta ruleta, int multiplicador) {
+        boolean haGanado = jugador.apostar(ruleta.getNumeroGanador());
+        if (haGanado) {
+            int ganancia = jugador.getApuestaInicial() * multiplicador;
+            if (ruleta.getBanca() >= ganancia) {
+                ruleta.setBanca(ruleta.getBanca() - ganancia);
+                jugador.setSaldo(jugador.getSaldo() + ganancia);
+                System.out.println("El jugador " + jugador.getId() + " ha ganado. Ahora tiene " + jugador.getSaldo() + "€");
+            } else {
+                jugador.setSaldo(jugador.getSaldo() + ruleta.getBanca());
+                ruleta.setBanca(0);
+            }
+        } else {
+            ruleta.setBanca(ruleta.getBanca() + jugador.getApuestaInicial());
+            System.out.println("El jugador " + jugador.getId() + " ha perdido. Ahora tiene " + jugador.getSaldo() + "€");
+        }
+    }
+
 }
+
