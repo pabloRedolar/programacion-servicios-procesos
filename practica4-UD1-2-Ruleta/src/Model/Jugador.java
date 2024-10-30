@@ -1,19 +1,14 @@
 package Model;
 
-abstract public class Jugador {
+public abstract class Jugador {
     String id;
     int saldo = 1000;
     int apuestaInicial = 10;
     int numeroApostado;
+    protected int ganancia;
 
-    public Jugador() {
-    }
-
-    public Jugador(String id, int saldo, int apuestaInicial, int numeroApostado) {
+    public Jugador(String id) {
         this.id = id;
-        this.saldo = saldo;
-        this.apuestaInicial = apuestaInicial;
-        this.numeroApostado = numeroApostado;
     }
 
     public String getId() {
@@ -48,7 +43,13 @@ abstract public class Jugador {
         this.numeroApostado = numeroApostado;
     }
 
-    // Metodos
+    public int getGanancia() {
+        return ganancia;
+    }
+
+    public void setGanancia(int ganancia) {
+        this.ganancia = ganancia;
+    }
 
     public abstract boolean apostar(int numeroGanador);
 }

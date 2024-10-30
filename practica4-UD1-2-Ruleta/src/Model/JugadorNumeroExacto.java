@@ -2,34 +2,32 @@ package Model;
 
 import java.util.random.RandomGenerator;
 
-public class JugadorNumeroExacto extends Jugador{
+public class JugadorNumeroExacto extends Jugador {
+
+    public JugadorNumeroExacto(String id) {
+        super(id);
+    }
+
     @Override
-
     public boolean apostar(int numeroGanador) {
-        if (saldo < getApuestaInicial()) {
-            System.out.println("El jugador " + getId() + " tiene un saldo inferior a 10€");
-        } else {
-            setSaldo(saldo -= getApuestaInicial());
-
-            if (numeroGanador == 0){
-                System.out.println("Ha salido el 0, el jugador: " + getId() + " ha perdido " + getApuestaInicial());
-                System.out.println("El jugador " + getId() + " ahora tiene " + getSaldo() + "€");
-                return false;
-            }
-
-            setNumeroApostado(RandomGenerator.getDefault().nextInt(1, 37));
-            System.out.println("Numero apostado: " + getNumeroApostado());
-
-            if (getNumeroApostado() == numeroGanador) {
-                System.out.println("El jugador " + getId() + " ha ganado " + getApuestaInicial() * 36 + "€");
-                return true;
-
-            } else {
-                System.out.println("El jugador " + getId() + " ha perdido " + getApuestaInicial() + "€");
-                System.out.println("El jugador " + getId() + " ahora tiene " + getSaldo() + "€");
-
-            }
+        System.out.println("\n---------- Jugadores numero exacto ----------\n");
+        if (saldo < apuestaInicial) {
+            System.out.println("El jugador " + id + " tiene un saldo insuficiente.");
+            return false;
         }
-        return false;
+
+        setSaldo(saldo - apuestaInicial);
+        setNumeroApostado(RandomGenerator.getDefault().nextInt(1, 37));
+
+        System.out.println("Jugador " + id + " apostó al número: " + getNumeroApostado());
+
+        if (numeroGanador == getNumeroApostado()) {
+            setGanancia(getApuestaInicial() * 36);
+            System.out.println("El jugador " + id + " ganó " + ganancia + "€! Nuevo saldo: " + getSaldo() + "€");
+            return true;
+        } else {
+            System.out.println("El jugador " + id + " perdió.");
+            return false;
+        }
     }
 }
