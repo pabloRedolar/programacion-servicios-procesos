@@ -23,10 +23,11 @@ public class JugadorNumeroExacto extends Jugador {
 
         if (numeroGanador == getNumeroApostado()) {
             setGanancia(getApuestaInicial() * 36);
-            System.out.println("El jugador " + id + " ganó " + ganancia + "€! Nuevo saldo: " + getSaldo() + "€");
             return true;
         } else {
-            System.out.println("El jugador " + id + " perdió.");
+            System.out.println("El jugador " + id + " perdió " + getApuestaInicial() + "€");
+            System.out.println("El jugador " + getId() + " ahora tiene " + getSaldo() + "€");
+
             return false;
         }
     }

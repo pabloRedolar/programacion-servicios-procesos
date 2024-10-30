@@ -19,8 +19,6 @@ public class Main {
     private static void inicializarJugadores(Ruleta ruleta) {
         for (int i = 0; i < 4; i++) {
             ruleta.agregarJugador(new JugadorNumeroExacto("JugadorNumExacto" + i));
-//            ruleta.agregarJugador(new JugadorParImpar("JugadorParImpar" + i));
-//            ruleta.agregarJugador(new JugadorMartingala("JugadorMartingala" + i));
         }
 
         for (int i = 0; i < 4; i++) {

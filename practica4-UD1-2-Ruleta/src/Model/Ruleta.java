@@ -7,7 +7,7 @@ import java.util.random.RandomGenerator;
 public class Ruleta implements Runnable {
     private final int INTERVALO_NUMEROS = 3000;
     private int banca = 50000;
-    private List<Jugador> jugadores = new ArrayList<>();
+    private final List<Jugador> jugadores = new ArrayList<>();
 
     public int getBanca() {
         return banca;
@@ -35,12 +35,14 @@ public class Ruleta implements Runnable {
         synchronized (jugadores) {
             for (Jugador jugador : jugadores) {
                 setBanca(getBanca() + jugador.getApuestaInicial());
-                if (jugador.apostar(numeroGanador)){
-                    if (getBanca() < jugador.getGanancia()){
+                if (jugador.apostar(numeroGanador)) {
+                    if (getBanca() < jugador.getGanancia()) {
                         System.out.println("La banca no puede pagarle a " + jugador.getId());
                     } else {
                         jugador.setSaldo(jugador.saldo + jugador.getGanancia());
                         setBanca(getBanca() - jugador.getGanancia());
+                        System.out.println("El jugador " + jugador.getId() + " ha ganado " + jugador.getGanancia() + "€");
+                        System.out.println("El jugador " + jugador.getId() + " ahora tiene " + jugador.getSaldo() + "€");
                     }
                 }
             }
@@ -51,7 +53,7 @@ public class Ruleta implements Runnable {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                System.out.println("La banca está en: " + getBanca());
+                System.out.println("\nLa banca está en: " + getBanca());
                 System.out.println("\n ********** La rule está girando **********");
                 Thread.sleep(INTERVALO_NUMEROS);
                 girarRuleta();

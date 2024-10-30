@@ -23,12 +23,11 @@ public class JugadorMartingala extends Jugador {
 
         if (numeroGanador == getNumeroApostado()) {
             setGanancia(getApuestaInicial() * 36);
-
-            System.out.println("El jugador " + id + " ganó " + getGanancia() + "€. Nuevo saldo: " + getSaldo() + "€");
             setApuestaInicial(10);
             return true;
         } else {
-            System.out.println("El jugador " + id + " perdió " + getApuestaInicial() + "€.");
+            System.out.println("El jugador " + id + " perdió " + getApuestaInicial() + "€");
+            System.out.println("El jugador " + getId() + " ahora tiene " + getSaldo() + "€");
             setApuestaInicial(apuestaInicial *= 2);
             return false;
         }

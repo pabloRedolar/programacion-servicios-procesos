@@ -24,11 +24,10 @@ public class JugadorParImpar extends Jugador {
 
         if (numeroGanador != 0 && (numeroGanador % 2) == getNumeroApostado()) {
             setGanancia(apuestaInicial * 2);
-
-            System.out.println("El jugador " + id + " ganó " + getGanancia() + "€! Nuevo saldo: " + getSaldo() + "€");
             return true;
         } else {
-            System.out.println("El jugador " + id + " perdió.");
+            System.out.println("El jugador " + id + " perdió " + getApuestaInicial() + "€");
+            System.out.println("El jugador " + getId() + " ahora tiene " + getSaldo() + "€");
             return false;
         }
     }
