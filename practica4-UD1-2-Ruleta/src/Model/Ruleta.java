@@ -6,8 +6,8 @@ import java.util.random.RandomGenerator;
 
 public class Ruleta implements Runnable {
     private final int INTERVALO_NUMEROS = 3000;
+    public List<Jugador> jugadores = new ArrayList<>();
     private int banca = 50000;
-    private final List<Jugador> jugadores = new ArrayList<>();
 
     public int getBanca() {
         return banca;
@@ -34,6 +34,13 @@ public class Ruleta implements Runnable {
     private void notificarJugadores(int numeroGanador) {
         synchronized (jugadores) {
             for (Jugador jugador : jugadores) {
+//                jugadores.removeIf(jugador1 -> jugador.getSaldo() == 0);
+
+                if (jugador.getSaldo() == 0) {
+                    System.out.println("El jugador " + jugador.getId() + " tiene un saldo insuficiente.");
+                    jugadores.remove(jugador);
+                }
+
                 setBanca(getBanca() + jugador.getApuestaInicial());
                 if (jugador.apostar(numeroGanador)) {
                     if (getBanca() < jugador.getGanancia()) {
@@ -41,13 +48,19 @@ public class Ruleta implements Runnable {
                     } else {
                         jugador.setSaldo(jugador.saldo + jugador.getGanancia());
                         setBanca(getBanca() - jugador.getGanancia());
-                        System.out.println("El jugador " + jugador.getId() + " ha ganado " + jugador.getGanancia() + "€");
+//                        System.out.println("El jugador " + jugador.getId() + " ha ganado " + jugador.getGanancia() + "€");
+
+                        System.out.printf("El jugador %s ha ganado %s€\n", jugador.getId(), jugador.getGanancia());
+
                         System.out.println("El jugador " + jugador.getId() + " ahora tiene " + jugador.getSaldo() + "€");
                     }
                 }
             }
         }
     }
+//    private void sacarJugadores(Jugador jugador) {
+//        jugadores.remove(jugador);
+//    }
 
     @Override
     public void run() {
@@ -64,3 +77,4 @@ public class Ruleta implements Runnable {
         }
     }
 }
+
