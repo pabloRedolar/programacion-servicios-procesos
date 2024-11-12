@@ -34,12 +34,7 @@ public class Ruleta implements Runnable {
     private void notificarJugadores(int numeroGanador) {
         synchronized (jugadores) {
             for (Jugador jugador : jugadores) {
-//                jugadores.removeIf(jugador1 -> jugador.getSaldo() == 0);
-
-                if (jugador.getSaldo() == 0) {
-                    System.out.println("El jugador " + jugador.getId() + " tiene un saldo insuficiente.");
-                    jugadores.remove(jugador);
-                }
+//                jugadores.removeIf(jugador1 -> jugador.getSaldo() < jugador1.getApuestaInicial());
 
                 setBanca(getBanca() + jugador.getApuestaInicial());
                 if (jugador.apostar(numeroGanador)) {

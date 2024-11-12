@@ -12,7 +12,7 @@ public class Ej2 {
 
             for (int i = 0; i < tiempoMaximo; i++) {
                 if (hilo.isAlive()) {
-                    Thread.sleep(1000); // Espera de 1 segundo
+                    Thread.sleep(1000);
                     System.out.println("Hilo: " + Thread.currentThread().getName() + ". Todavía esperando...");
                 } else {
                     break;

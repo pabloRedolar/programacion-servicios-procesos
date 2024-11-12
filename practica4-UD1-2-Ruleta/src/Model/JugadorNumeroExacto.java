@@ -12,6 +12,11 @@ public class JugadorNumeroExacto extends Jugador {
     public boolean apostar(int numeroGanador) {
         System.out.println("\n---------- Jugadores numero exacto ----------\n");
 
+        if (saldo < getApuestaInicial()) {
+            System.out.println("El jugador " + id + " tiene un saldo insuficiente.");
+            return false;
+        }
+
         setSaldo(saldo - apuestaInicial);
         setNumeroApostado(RandomGenerator.getDefault().nextInt(1, 37));
 

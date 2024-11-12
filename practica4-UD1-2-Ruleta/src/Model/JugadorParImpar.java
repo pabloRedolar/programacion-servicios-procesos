@@ -11,6 +11,7 @@ public class JugadorParImpar extends Jugador {
     @Override
     public boolean apostar(int numeroGanador) {
         System.out.println("\n---------- Jugadores par/impar ----------\n");
+
         if (saldo < apuestaInicial) {
             System.out.println("El jugador " + id + " tiene un saldo insuficiente.");
             return false;

@@ -2,7 +2,7 @@ package Model;
 
 public abstract class Jugador {
     String id;
-    int saldo = 20;
+    int saldo = 1000;
     int apuestaInicial = 10;
     int numeroApostado;
     protected int ganancia;
