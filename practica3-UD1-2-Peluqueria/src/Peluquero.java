@@ -26,7 +26,6 @@ public class Peluquero implements Runnable {
                     System.out.println("Peluquero " + id + " está cortando el pelo al cliente " + clienteId);
                     Thread.sleep((4 + random.nextInt(3)) * 1000);
                     System.out.println("Peluquero " + id + " terminó de cortar el pelo al cliente " + clienteId);
-
                 }
 
             } catch (InterruptedException e) {
