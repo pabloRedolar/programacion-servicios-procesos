@@ -4,7 +4,6 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.IOException;
-import java.net.SocketException;
 
 public class ListFiles {
     public static void main(String[] args) {
@@ -15,17 +14,15 @@ public class ListFiles {
 
         FTPClient ftpClient = new FTPClient();
         try {
-            ftpClient.connect(server,port);
-            ftpClient.login(user,pass);
+            ftpClient.connect(server, port);
+            ftpClient.login(user, pass);
             ftpClient.enterLocalPassiveMode();
             printFiles("/", ftpClient);
 
             ftpClient.logout();
-        } catch (SocketException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             if (ftpClient.isConnected()) {
                 try {
                     ftpClient.disconnect();
@@ -39,11 +36,11 @@ public class ListFiles {
     private static void printFiles(String path, FTPClient ftpClient) throws IOException {
         FTPFile[] files = ftpClient.listFiles(path);
         System.out.println("Directorio: " + path);
-        for (FTPFile file : files){
-            if (file.isDirectory()){
+        for (FTPFile file : files) {
+            if (file.isDirectory()) {
                 System.out.println("[DIR] " + file.getName());
-                printFiles(path + file.getName() , ftpClient);
-            }else {
+                printFiles(path + file.getName(), ftpClient);
+            } else {
                 System.out.println("\t [FILE] " + file.getName());
             }
         }

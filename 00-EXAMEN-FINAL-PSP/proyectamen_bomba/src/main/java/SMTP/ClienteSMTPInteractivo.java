@@ -53,9 +53,9 @@ public class ClienteSMTPInteractivo {
 
         System.out.println("Introduce el mensaje (varias líneas). Finaliza con '*':");
         StringBuilder sbMensaje = new StringBuilder();
-        while(true) {
+        while (true) {
             String linea = sc.nextLine();
-            if(linea.equals("*")) {
+            if (linea.equals("*")) {
                 break;
             }
             sbMensaje.append(linea).append("\n");
