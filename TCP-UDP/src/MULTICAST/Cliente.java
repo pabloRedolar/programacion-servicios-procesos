@@ -55,9 +55,11 @@ public class Cliente implements Serializable{
             try (DatagramSocket socket = new DatagramSocket()) {
                 InetAddress address = InetAddress.getByName("239.0.0.1");
                 Cliente cliente = new Cliente(i+1, mensaje);
+
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ObjectOutputStream oos = new ObjectOutputStream(baos);
                 oos.writeObject(cliente);
+
                 DatagramPacket packectOut = new DatagramPacket(baos.toByteArray(), baos.toByteArray().length, address, port);
                 socket.send(packectOut);
                 System.out.println(cliente + " ha enviado " + cliente.getMensaje());
@@ -66,8 +68,10 @@ public class Cliente implements Serializable{
                 byte[] bufferIn = new byte[1024];
                 DatagramPacket packectIn = new DatagramPacket(bufferIn, bufferIn.length);
                 socket.receive(packectIn);
+
                 ByteArrayInputStream bais = new ByteArrayInputStream(packectIn.getData());
                 ObjectInputStream ois = new ObjectInputStream(bais);
+
                 String respuesta = (String) ois.readObject();
                 System.out.println(cliente + " ha recibido " + respuesta);
 

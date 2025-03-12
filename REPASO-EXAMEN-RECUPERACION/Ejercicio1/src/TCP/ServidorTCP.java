@@ -1,37 +1,37 @@
 package TCP;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class ServidorTCP {
     public static void main(String[] args) {
-        final int PUERTO = 5000; // Puerto donde el servidor escucha
+        final int PUERTO = 5000;
 
         try (ServerSocket servidor = new ServerSocket(PUERTO)) {
-            System.out.println("Servidor TCP esperando conexiones en el puerto " + PUERTO);
+            System.out.println("Servidor TCP en el puerto " + PUERTO);
 
             while (true) {
-                // 1. Esperar a que un cliente se conecte
+                // Aceptar conexión
                 Socket socketCliente = servidor.accept();
-                System.out.println("Cliente conectado: " + socketCliente.getInetAddress());
+                System.out.println("Cliente conectado desde: " + socketCliente.getInetAddress());
 
-                // 2. Crear flujos de entrada y salida para comunicarse con el cliente
+                // Flujos de entrada y salida
                 BufferedReader entrada = new BufferedReader(new InputStreamReader(socketCliente.getInputStream()));
                 PrintWriter salida = new PrintWriter(socketCliente.getOutputStream(), true);
 
-                // 3. Leer el número enviado por el cliente
-                String mensaje = entrada.readLine();
-                int numero = Integer.parseInt(mensaje);
+                // Leer número
+                int numero = Integer.parseInt(entrada.readLine());
                 System.out.println("Número recibido: " + numero);
 
-                // 4. Calcular el resultado (número * siguiente número)
+                // Calcular producto con el siguiente número
                 int resultado = numero * (numero + 1);
                 System.out.println("Enviando resultado: " + resultado);
 
-                // 5. Enviar el resultado al cliente
+                // Enviar respuesta
                 salida.println(resultado);
-
-                // 6. Cerrar la conexión con el cliente
                 socketCliente.close();
             }
         } catch (Exception e) {

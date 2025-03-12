@@ -16,6 +16,7 @@ public class Servidor {
                     byte[] bufferIn = new byte[1024];
                     DatagramPacket packectIn = new DatagramPacket(bufferIn, bufferIn.length);
                     socket.receive(packectIn);
+
                     ByteArrayInputStream bais = new ByteArrayInputStream(packectIn.getData());
                     ObjectInputStream ois = new ObjectInputStream(bais);
                     Integer numero = (Integer) ois.readObject();
@@ -24,6 +25,7 @@ public class Servidor {
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     ObjectOutputStream oos = new ObjectOutputStream(baos);
                     oos.writeObject(numero);
+
                     DatagramPacket packetOut = new DatagramPacket(baos.toByteArray(), baos.toByteArray().length, packectIn.getAddress(), packectIn.getPort());
                     socket.send(packetOut);
 

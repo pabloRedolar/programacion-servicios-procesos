@@ -18,6 +18,7 @@ public class Servidor extends Socket {
                     byte[] bufferIn = new byte[1024];
                     DatagramPacket packetIn = new DatagramPacket(bufferIn,bufferIn.length);
                     socket.receive(packetIn);
+
                     ByteArrayInputStream bais = new ByteArrayInputStream(packetIn.getData());
                     ObjectInputStream ois = new ObjectInputStream(bais);
                     Cliente cliente = (Cliente) ois.readObject();
@@ -25,9 +26,11 @@ public class Servidor extends Socket {
                     Integer respuesta = cliente.getAlto()*cliente.getAncho();
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     ObjectOutputStream oos = new ObjectOutputStream(baos);
+
                     oos.writeObject(respuesta);
                     DatagramPacket packectOut = new DatagramPacket(baos.toByteArray(),baos.toByteArray().length,packetIn.getAddress(), packetIn.getPort());
                     socket.send(packectOut);
+
                 }catch (SocketTimeoutException ex){
                     out.println("Tiempo de espera agotado...");
                     break;

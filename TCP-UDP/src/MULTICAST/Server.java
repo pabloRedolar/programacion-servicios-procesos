@@ -18,14 +18,17 @@ public class Server {
                     byte[] bufferIn = new byte[1024];
                     DatagramPacket packet = new DatagramPacket(bufferIn, bufferIn.length);
                     socket.receive(packet);
+
                     ByteArrayInputStream bais = new ByteArrayInputStream(packet.getData());
                     ObjectInputStream ois = new ObjectInputStream(bais);
-                    Cliente cliente = (Cliente) ois.readObject();
 
+                    Cliente cliente = (Cliente) ois.readObject();
                     String respuesta = processClient(cliente);
+
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     ObjectOutputStream oos = new ObjectOutputStream(baos);
                     oos.writeObject(respuesta);
+
                     DatagramPacket packetOut = new DatagramPacket(baos.toByteArray(),baos.toByteArray().length, packet.getAddress(), packet.getPort());
                     socket.send(packetOut);
 
