@@ -91,7 +91,7 @@ public class ClienteSMTP3 {
                 System.out.println("Error al ejecutar STARTTLS");
             }
 
-            
+
         } catch (IOException e) {
             System.err.println("No se puede conectar al servidor");
             e.printStackTrace();

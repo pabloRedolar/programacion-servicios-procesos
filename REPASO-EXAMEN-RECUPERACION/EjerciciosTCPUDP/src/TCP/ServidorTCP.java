@@ -7,7 +7,6 @@ import java.net.Socket;
 // El usuario tiene que mandar un numero y el servidor devuelve una cuenta atras desde ese num hasta 0 (TCP)
 public class ServidorTCP {
     private static final int PORT = 50000;
-    private static final String HOSTNAME = "localhost";
 
     public static void main(String[] args) {
         try (ServerSocket servidor = new ServerSocket(PORT)) {
